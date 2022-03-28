@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Shoes App',
-      home: ZapatoScreen()
+      home: ZapatosDescPage()
     );
   }
 }

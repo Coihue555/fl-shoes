@@ -1,24 +1,38 @@
 import 'package:flutter/material.dart';
 
 class ZapatoSizePreview extends StatelessWidget {
+  final bool fullscreen;
+
+  const ZapatoSizePreview({this.fullscreen = false});
   
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        padding: EdgeInsets.symmetric(
+          horizontal: (fullscreen) ? 5 : 30, 
+          vertical: (fullscreen) ? 5 : 0
+        ),
         child: Container(
           width: double.infinity,
-          height: 430,
+          height: (fullscreen) ? 410 : 430,
           decoration: BoxDecoration(
             color: Color(0xffffcf53),
-            borderRadius: BorderRadius.circular(50)
+            borderRadius:
+                    (!fullscreen)
+                    ? BorderRadius.circular(50)
+                    : const BorderRadius.only(bottomLeft: Radius.circular(50),
+                                        bottomRight: Radius.circular(50),
+                                        topLeft: Radius.circular(40),
+                                        topRight: Radius.circular(40),)
           ),
           child: Column(
             children: [
               _ZapatoConSombra(),
-              _ZapatoTalla()
+
+              if(!fullscreen)
+                _ZapatoTalla()
             ],
           ),
         ),

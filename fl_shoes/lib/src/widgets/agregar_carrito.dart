@@ -1,3 +1,4 @@
+import 'package:fl_shoes/src/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class AgregarCarritoBoton extends StatelessWidget {
@@ -18,8 +19,11 @@ class AgregarCarritoBoton extends StatelessWidget {
          ),
          child: Row(
            children: [
-             SizedBox(width: 20,),
-             Text('\$$monto', style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),)
+             const SizedBox(width: 20,),
+             Text('\$$monto', style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+             const Spacer(),
+             const BotonNaranja(texto: 'Add to cart'),
+             const SizedBox(width: 20,)
            ],
          ),
         
