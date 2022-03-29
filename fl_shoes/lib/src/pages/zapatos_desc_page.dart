@@ -1,20 +1,47 @@
-import 'package:fl_shoes/src/widgets/widgets.dart';
+import 'package:fl_shoes/src/helpers/helpers.dart';
+import 'package:fl_shoes/src/models/zapato_model.dart';
 import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:fl_shoes/src/widgets/widgets.dart';
+import 'package:provider/provider.dart';
+
 
 class ZapatosDescPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    cambiarStatusLight();
     return Scaffold(
       body: Column(
         children: [
           
           Expanded(
             child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 children:  [
-                  const ZapatoSizePreview(fullscreen: true),
+                  Stack(
+                    children: [
+                      const Hero(
+                        tag:'zapato-1',
+                        child: ZapatoSizePreview(fullscreen: true)
+                      ),
+
+                      Positioned(
+                        top: 80,
+                        child: FloatingActionButton(
+                          child: const Icon(Icons.chevron_left, color: Colors.white, size: 60,),
+                          elevation: 0,
+                          highlightElevation: 0,
+                          backgroundColor: Colors.transparent,
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
+
+                        ),
+                        )
+                      ]
+                    ),
                   const ZapatoDescripcion(
                         titulo: 'Nike Air Max 720',
                         descripcion: "The Nike Air Max 720 goes bigger than ever before with Nike's taller Air unit yet, offering more air underfoot for unimaginable, all-day comfort. Has Air Max gone too far? We hope so.",
@@ -90,11 +117,11 @@ class _ColoresYmas extends StatelessWidget {
         children: [
           Expanded(
             child: Stack(
-              children: [
-                const Positioned(left: 90, child: _BotonColor(Colors.orange)),
-                const Positioned(left: 60, child: _BotonColor(Color.fromARGB(255, 13, 97, 58))),
-                Positioned(left: 30, child: _BotonColor(Colors.green.shade400)),
-                _BotonColor(Colors.blue.shade400),
+              children: const [
+                Positioned(left: 90, child: _BotonColor(Colors.black, 4, 'assets/imgs/negro.png')),
+                Positioned(left: 60, child: _BotonColor(Colors.yellow, 3, 'assets/imgs/amarillo.png')),
+                Positioned(left: 30, child: _BotonColor(Colors.blue, 2, 'assets/imgs/azul.png')),
+                _BotonColor(Colors.green, 1, 'assets/imgs/verde.png'),
               ],
             ),
           ),
@@ -109,18 +136,30 @@ class _ColoresYmas extends StatelessWidget {
 class _BotonColor extends StatelessWidget {
 
   final Color color;
+  final int index;
+  final String urlImagen;
 
-  const _BotonColor(this.color);
+  const _BotonColor(this.color, this.index, this.urlImagen);
 
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 45,
-      height: 45,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle
+    return FadeInLeft(
+      delay: Duration(milliseconds: index*100),
+      duration: const Duration(milliseconds: 200),
+      child: GestureDetector(
+        onTap: () {
+          final zapatoModel = Provider.of<ZapatoModel>(context, listen: false);
+          zapatoModel.assetImage = urlImagen;
+        },
+        child: Container(
+          width: 45,
+          height: 45,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle
+          ),
+        ),
       ),
     );
   }
@@ -135,10 +174,13 @@ class _MontoBuyNow extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(top: 20),
         child: Row(
-          children: const [
-            Text('\$180', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
-            Spacer(),
-            BotonNaranja(texto: 'Buy Now', ancho: 120, alto: 40,)
+          children: [
+            const Text('\$180', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+            const Spacer(),
+            Bounce(
+              delay: const Duration(seconds: 1),
+              from: 8,
+              child: const BotonNaranja(texto: 'Buy Now', ancho: 120, alto: 40,))
           ],
         ),
       ),
